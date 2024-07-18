@@ -1,0 +1,80 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix idn: <http://example.org/idn#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+idn:Character rdf:type rdfs:Class .
+idn:Event rdf:type rdfs:Class .
+idn:DecisionPoint rdf:type rdfs:Class .
+idn:Choice rdf:type rdfs:Class .
+idn:Outcome rdf:type rdfs:Class .
+idn:StoryArc rdf:type rdfs:Class .
+idn:CharacterRelationship rdf:type rdfs:Class .
+idn:CharacterPlot rdf:type rdfs:Class .
+idn:Action rdf:type rdfs:Class .
+idn:NarrativeChange rdf:type rdfs:Class .
+
+idn:hasName rdf:type rdf:Property ;
+    rdfs:domain idn:Character ;
+    rdfs:range xsd:string .
+
+idn:participatesIn rdf:type rdf:Property ;
+    rdfs:domain idn:Character ;
+    rdfs:range idn:Event .
+
+idn:hasRelationshipWith rdf:type rdf:Property ;
+    rdfs:domain idn:Character ;
+    rdfs:range idn:CharacterRelationship .
+
+idn:relationshipType rdf:type rdf:Property ;
+    rdfs:domain idn:CharacterRelationship ;
+    rdfs:range xsd:string .
+
+idn:partOfPlot rdf:type rdf:Property ;
+    rdfs:domain [
+        rdf:type owl:Class ;
+        owl:unionOf ( 
+            idn:Event 
+            idn:DecisionPoint 
+            idn:Action 
+        )
+    ] ;
+    rdfs:range idn:CharacterPlot .
+
+idn:performsAction rdf:type rdf:Property ;
+    rdfs:domain idn:Character ;
+    rdfs:range idn:Action .
+
+idn:leadsToNarrativeChange rdf:type rdf:Property ;
+    rdfs:domain [
+        rdf:type owl:Class ;
+        owl:unionOf ( 
+            idn:Action 
+            idn:Choice 
+        )
+    ] ;
+    rdfs:range idn:NarrativeChange .
+
+idn:resultsIn rdf:type rdf:Property ;
+    rdfs:domain [
+        rdf:type owl:Class ;
+        owl:unionOf (
+            idn:Choice 
+            idn:Action
+        )
+    ] ;
+    rdfs:range idn:Outcome .
+
+idn:partOfStoryArc rdf:type rdf:Property ;
+    rdfs:domain [
+        rdf:type owl:Class ;
+        owl:unionOf (
+            idn:Event 
+            idn:DecisionPoint 
+            idn:Outcome 
+            idn:Action 
+            idn:NarrativeChange
+        )
+    ] ;
+    rdfs:range idn:StoryArc .
